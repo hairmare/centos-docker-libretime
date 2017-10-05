@@ -16,7 +16,6 @@ RUN rm /etc/httpd/conf.d/{userdir,welcome,autoindex}.conf \
  && mkdir -p /etc/airtime/ /var/log/airtime \
  && chown apache:apache /etc/airtime /var/log/airtime/ \
  && sed -i -E \
-    -e 's/Listen 80/Listen 8080/' \
     -e 's@ErrorLog "logs/error_log"@ErrorLog "/dev/stderr"@' \
     -e 's@CustomLog "logs/access_log" combined@CustomLog "/dev/stdout" combined@' \
     -e 's/Require(.*)/#Require\1/' \
@@ -34,6 +33,6 @@ COPY libretime.apache.conf /etc/httpd/conf.d/99-libretime.conf
 
 USER apache
 
-EXPOSE 8080
+EXPOSE 80
 
 CMD ["/apache-foreground"]
