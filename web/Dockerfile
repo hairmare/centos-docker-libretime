@@ -19,6 +19,7 @@ RUN rm /etc/httpd/conf.d/{userdir,welcome,autoindex}.conf \
     -e 's@ErrorLog "logs/error_log"@ErrorLog "/dev/stderr"@' \
     -e 's@CustomLog "logs/access_log" combined@CustomLog "/dev/stdout" combined@' \
     -e 's/Require(.*)/#Require\1/' \
+    -e 's/Listen 80/Listen 8080/' \
     /etc/httpd/conf/httpd.conf \
  && sed -i \
     -e 's@/var/lib/php/session@/tmp/session@' \
@@ -33,6 +34,6 @@ COPY libretime.apache.conf /etc/httpd/conf.d/99-libretime.conf
 
 USER apache
 
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["/apache-foreground"]
