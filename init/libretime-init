@@ -1,0 +1,17 @@
+#!/bin/bash
+
+export PGPASSWORD=$DATABASE_PASSWORD
+
+set -xe
+
+pushd /var/www/libretime/airtime_mvc/build/sql/
+
+cat \
+  schema.sql \
+  sequences.sql \
+  views.sql \
+  triggers.sql \
+  defaultdata.sql \
+| psql -h $DATABASE_HOST -U $DATABASE_USER $DATABASE_NAME
+
+popd
