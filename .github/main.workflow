@@ -1,4 +1,4 @@
-workflow "Docker Images" {
+workflow "Build Docker Images" {
   on = "push"
   resolves = [
     "Push libretime-web",
