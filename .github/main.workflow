@@ -1,7 +1,7 @@
 workflow "Docker Images" {
   on = "push"
   resolves = [
-    "GitHub Action for Docker-1",
+    "Push libretime-web",
     "Push libretime-analyzer",
   ]
 }
