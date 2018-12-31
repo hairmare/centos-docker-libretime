@@ -19,13 +19,13 @@ action "Build libretime-web" {
 
 action "Tag libretime-web" {
   uses = "actions/docker/tag@76ff57a"
-  needs = ["GitHub Action for Docker"]
+  needs = ["Build libretime-web"]
   args = "libretime-web hairmare/libretime-web"
 }
 
 action "Push libretime-web" {
   uses = "actions/docker/cli@76ff57a"
-  needs = ["Docker Tag"]
+  needs = ["Tag libretime-web"]
   args = "push hairmare/libretime-web"
 }
 
@@ -37,7 +37,7 @@ action "Build libretime-analyzer" {
 
 action "Tag libretime-analyzer" {
   uses = "actions/docker/tag@76ff57a"
-  needs = ["GitHub Action for Docker-2"]
+  needs = ["Build libretime-analyzer"]
   args = "libretime-analyzer hairmare/libretime-analyzer"
 }
 
