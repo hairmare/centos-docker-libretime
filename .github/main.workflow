@@ -17,5 +17,5 @@ action "GitHub Action for Docker" {
 action "Docker Tag" {
   uses = "actions/docker/tag@76ff57a"
   needs = ["GitHub Action for Docker"]
-  args = "librretime-web hairmare/libretime-web"
+  args = "libretime-web hairmare/libretime-web"
 }
