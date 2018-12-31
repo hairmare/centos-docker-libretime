@@ -1,5 +1,8 @@
 FROM centos:7
 
+LABEL maintainer="Lucas Bickel <hairmare@rabe.ch>" \
+      description="LibreTime Web Interface container"
+
 ENV APACHE_RUN_DIR=/tmp/libretime/apache/run \
     APACHE_LOCK_DIR=/tmp/libretime/apache/lock \
     APACHE_LOG_DIR=/tmp/libretime/apache/log
