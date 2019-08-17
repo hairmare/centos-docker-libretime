@@ -1,0 +1,24 @@
+name: Docker Image CI
+
+on: [push]
+
+jobs:
+
+  build:
+ 
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build the web Docker image
+      run: docker build web/ --file Dockerfile --tag hairmare/libretime:web
+    - name: Build the init Docker image
+      run: docker build init/ --file Dockerfile --tag hairmare/libretime:init
+    - name: Build the analyzer Docker image
+      run: docker build analyzer/ --file Dockerfile --tag hairmare/libretime:analyzer
+    - name: Build the celery Docker image
+      run: docker build celery/ --file Dockerfile --tag hairmare/libretime:celery
+    - name: Build the liquidsoap Docker image
+      run: docker build liquidsoap/ --file Dockerfile --tag hairmare/libretime:liquidsoap
+    - name: Build the playout Docker image
+      run: docker build playout/ --file Dockerfile --tag hairmare/libretime:playout
