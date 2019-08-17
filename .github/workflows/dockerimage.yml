@@ -11,14 +11,14 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build the web Docker image
-      run: docker build web/ --file Dockerfile --tag hairmare/libretime:web
+      run: docker build web/ --file web/Dockerfile --tag hairmare/libretime:web
     - name: Build the init Docker image
-      run: docker build init/ --file Dockerfile --tag hairmare/libretime:init
+      run: docker build init/ --file init/Dockerfile --tag hairmare/libretime:init
     - name: Build the analyzer Docker image
-      run: docker build analyzer/ --file Dockerfile --tag hairmare/libretime:analyzer
+      run: docker build analyzer/ --file analyzer/Dockerfile --tag hairmare/libretime:analyzer
     - name: Build the celery Docker image
-      run: docker build celery/ --file Dockerfile --tag hairmare/libretime:celery
+      run: docker build celery/ --file celery/Dockerfile --tag hairmare/libretime:celery
     - name: Build the liquidsoap Docker image
-      run: docker build liquidsoap/ --file Dockerfile --tag hairmare/libretime:liquidsoap
+      run: docker build liquidsoap/ --file liquidsoap/Dockerfile --tag hairmare/libretime:liquidsoap
     - name: Build the playout Docker image
-      run: docker build playout/ --file Dockerfile --tag hairmare/libretime:playout
+      run: docker build playout/ --file playout/Dockerfile --tag hairmare/libretime:playout
