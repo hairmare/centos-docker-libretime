@@ -1,0 +1,58 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ include "libretime.fullname" . }}-celery
+  labels:
+    app.kubernetes.io/name: {{ include "libretime.name" . }}
+    helm.sh/chart: {{ include "libretime.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    k8s.libretime.org/component: celery
+spec:
+  replicas: {{ .Values.celery.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "libretime.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      k8s.libretime.org/component: celery
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "libretime.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        k8s.libretime.org/component: celery
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.celery.image.repository }}:{{ .Values.celery.image.tag }}"
+          imagePullPolicy: {{ .Values.celery.image.pullPolicy }}
+          env:
+            - name: RMQ_CONFIG_FILE
+              value: "/etc/airtime/airtime.conf"
+          volumeMounts:
+            - mountPath: "/srv/airtime/"
+              name: storage
+            - mountPath: "/etc/airtime"
+              name: config
+              readOnly: true
+          resources:
+{{ toYaml .Values.celery.resources | indent 12 }}
+    {{- with .Values.celery.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.celery.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.celery.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: {{ include "libretime.fullname" . }}
+        - name: config
+          secret:
+            secretName: {{ include "libretime.fullname" . }}

@@ -1,0 +1,67 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ include "libretime.fullname" . }}-playout
+  labels:
+    app.kubernetes.io/name: {{ include "libretime.name" . }}
+    helm.sh/chart: {{ include "libretime.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    k8s.libretime.org/component: playout
+spec:
+  replicas: {{ .Values.playout.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "libretime.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      k8s.libretime.org/component: playout
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "libretime.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        k8s.libretime.org/component: playout
+    spec:
+      initContainers:
+        - name: {{ .Chart.Name }}-chown-logs
+          image: "{{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}"
+          imagePullPolicy: {{ .Values.init.image.pullPolicy }}
+          command: ["sh", "-c", "mkdir /var/log/airtime/pypo; chown -R 998:996 /var/log/airtime"]
+          volumeMounts:
+            - mountPath: "/var/log/airtime/"
+              name: logs
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.playout.image.repository }}:{{ .Values.playout.image.tag }}"
+          imagePullPolicy: {{ .Values.playout.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: "/srv/airtime/"
+              name: storage
+            - mountPath: "/etc/airtime"
+              name: config
+              readOnly: true
+            - mountPath: "/var/log/airtime/"
+              name: logs
+          resources:
+{{ toYaml .Values.playout.resources | indent 12 }}
+    {{- with .Values.playout.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.playout.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.playout.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: {{ include "libretime.fullname" . }}
+        - name: config
+          secret:
+            secretName: {{ include "libretime.fullname" . }}
+        - name: logs
+          emptyDir: {}

@@ -4,6 +4,12 @@ export PGPASSWORD=$DATABASE_PASSWORD
 
 set -xe
 
+until psql -h $DATABASE_HOST -U $DATABASE_USER -c '\l'; do
+  echo >&2 "$(date +%Y%m%dt%H%M%S) Postgres is unavailable - sleeping"
+  sleep 1
+done
+echo >&2 "$(date +%Y%m%dt%H%M%S) Postgres is up - executing command"
+
 pushd /var/www/libretime/airtime_mvc/build/sql/
 
 cat \
@@ -15,3 +21,5 @@ cat \
 | psql -h $DATABASE_HOST -U $DATABASE_USER $DATABASE_NAME
 
 popd
+
+mkdir -p /srv/airtime/stor/{imported,organize,problem_files}

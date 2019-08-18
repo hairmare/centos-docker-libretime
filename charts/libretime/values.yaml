@@ -1,0 +1,194 @@
+# Default values for libretime.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+fullnameOverride: ""
+
+storage:
+
+  # storageClassName: 
+  
+  accessMode: ReadWriteOnce
+  capacity: 4G
+
+init:
+
+  image:
+    repository: quay.io/hairmare/libretime-init
+    tag: latest
+    pullPolicy: IfNotPresent
+
+web:
+
+  replicaCount: 1
+
+  image:
+    repository: quay.io/hairmare/libretime-web
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  ingress:
+    enabled: false
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+    path: /
+    hosts:
+      - chart-example.local
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #  cpu: 100m
+    #  memory: 128Mi
+    # requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+analyzer:
+
+  replicaCount: 1
+
+  image:
+    repository: quay.io/hairmare/libretime-analyzer
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #  cpu: 100m
+    #  memory: 128Mi
+    # requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+celery:
+
+  replicaCount: 1
+
+  image:
+    repository: quay.io/hairmare/libretime-celery
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #  cpu: 100m
+    #  memory: 128Mi
+    # requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+playout:
+
+  replicaCount: 1
+
+  image:
+    repository: quay.io/hairmare/libretime-playout
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #  cpu: 100m
+    #  memory: 128Mi
+    # requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+liquidsoap:
+
+  replicaCount: 1
+
+  image:
+    repository: quay.io/hairmare/libretime-liquidsoap
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #  cpu: 100m
+    #  memory: 128Mi
+    # requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+rabbitmq:
+
+  rabbitmq:
+
+    username: libretime
+    password: libretime
+
+    extraConfiguration: |-
+      management.load_definitions = /app/load_definition.json
+
+    loadDefinition:
+      enabled: "true"
+      # <libretime> needs to be the helm Release in the secretName below!
+      # TODO: figure out how this could be nicer!
+      secretName: libretime-rabbitmq-load-definition
+
+postgresql:
+
+  postgresqlUsername: libretime
+  postgresqlPassword: libretime
+  postgresqlDatabase: libretime
