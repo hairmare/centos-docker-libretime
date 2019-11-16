@@ -30,10 +30,14 @@ spec:
         - name: {{ .Chart.Name }}-chown
           image: "{{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}"
           imagePullPolicy: {{ .Values.init.image.pullPolicy }}
-          command: ["sh", "-c", "mkdir /var/log/airtime/pypo; chown -R 998:996 /var/log/airtime"]
+          command: ["sh", "-c", "mkdir /var/log/airtime/pypo; chown -R 998:996 /var/log/airtime /var/tmp/airtime/pypo/cache /var/lib/libretime/liqudsoap"]
           volumeMounts:
             - mountPath: "/var/log/airtime/"
               name: logs
+            - mountPath: "/var/tmp/airtime/pypo/cache/"
+              name: cache
+            - mountPath: "/var/lib/libretime/liquidsoap"
+              name: liqconf
       containers:
         - name: {{ .Chart.Name }}-playout
           image: "{{ .Values.playout.image.repository }}:{{ .Values.playout.image.tag }}"
@@ -41,6 +45,8 @@ spec:
           volumeMounts:
             - mountPath: "/var/tmp/airtime/pypo/cache/"
               name: cache
+            - mountPath: "/var/lib/libretime/liquidsoap"
+              name: liqconf
             - mountPath: "/etc/airtime"
               name: config
               readOnly: true
@@ -54,6 +60,8 @@ spec:
           volumeMounts:
             - mountPath: "/var/tmp/airtime/pypo/cache/"
               name: cache
+            - mountPath: "/var/lib/libretime/liquidsoap"
+              name: liqconf
             - mountPath: "/etc/airtime"
               name: config
               readOnly: true
@@ -61,6 +69,8 @@ spec:
             {{ toYaml .Values.liquidsoap.resources | nindent 12 }}
       volumes:
         - name: cache
+          emptyDir: {}
+        - name: liqconf
           emptyDir: {}
         - name: config
           secret:
