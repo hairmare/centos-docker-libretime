@@ -3,11 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ include "libretime.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "libretime.name" . }}
-    helm.sh/chart: {{ include "libretime.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
     k8s.libretime.org/component: storage
+    {{- include "libretime.labels" . | nindent 4 }}
 spec:
  {{- if .Values.storage.storageClassName -}}
  storageClassName: {{ .Values.storage.storageClassName | quote }}

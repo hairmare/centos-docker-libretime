@@ -3,24 +3,19 @@ kind: Deployment
 metadata:
   name: {{ include "libretime.fullname" . }}-pypo
   labels:
-    app.kubernetes.io/name: {{ include "libretime.name" . }}
-    helm.sh/chart: {{ include "libretime.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
     k8s.libretime.org/component: pypo
+    {{- include "libretime.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.pypo.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "libretime.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
       k8s.libretime.org/component: pypo
+      {{- include "libretime.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "libretime.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
         k8s.libretime.org/component: pypo
+        {{- include "libretime.selectorLabels" . | nindent 8 }}
     spec:
       {{- if .Values.image.pullSecret }}
       imagePullSecrets:
@@ -30,7 +25,7 @@ spec:
         - name: {{ .Chart.Name }}-chown
           image: "{{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}"
           imagePullPolicy: {{ .Values.init.image.pullPolicy }}
-          command: ["sh", "-c", "mkdir /var/log/airtime/pypo; chown -R 998:996 /var/log/airtime /var/tmp/airtime/pypo/cache /var/lib/libretime/liqudsoap"]
+          command: ["sh", "-c", "mkdir -p /var/log/airtime/pypo /var/tmp/airtime/pypo/cache /var/lib/libretime/liqudsoap; chown -R 998:996 /var/log/airtime /var/tmp/airtime/pypo/cache /var/lib/libretime/liqudsoap"]
           volumeMounts:
             - mountPath: "/var/log/airtime/"
               name: logs

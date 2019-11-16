@@ -3,24 +3,19 @@ kind: Deployment
 metadata:
   name: {{ include "libretime.fullname" . }}-celery
   labels:
-    app.kubernetes.io/name: {{ include "libretime.name" . }}
-    helm.sh/chart: {{ include "libretime.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
     k8s.libretime.org/component: celery
+    {{- include "libretime.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.celery.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "libretime.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
       k8s.libretime.org/component: celery
+      {{- include "libretime.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "libretime.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
         k8s.libretime.org/component: celery
+        {{- include "libretime.selectorLabels" . | nindent 8 }}
     spec:
       {{- if .Values.image.pullSecret }}
       imagePullSecrets:

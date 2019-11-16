@@ -1,20 +1,21 @@
 {{- if .Values.icecast.ingress.enabled -}}
 {{- $fullName := include "libretime.fullname" . -}}
-{{- $ingressPath := .Values.icecast.ingress.path -}}
+{{- $svcPort := .Values.icecast.service.port -}}
+{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
 apiVersion: extensions/v1beta1
+{{- end }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}-icecast
   labels:
-    app.kubernetes.io/name: {{ include "libretime.name" . }}
-    helm.sh/chart: {{ include "libretime.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
     k8s.libretime.org/component: icecast
-{{- with .Values.icecast.ingress.annotations }}
+    {{- include "libretime.labels" . | nindent 4 }}
+  {{- with .Values.icecast.ingress.annotations }}
   annotations:
-{{ toYaml . | indent 4 }}
-{{- end }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
 {{- if .Values.icecast.ingress.tls }}
   tls:
@@ -28,12 +29,14 @@ spec:
 {{- end }}
   rules:
   {{- range .Values.icecast.ingress.hosts }}
-    - host: {{ . | quote }}
+    - host: {{ .host | quote }}
       http:
         paths:
-          - path: {{ $ingressPath }}
+        {{- range .paths }}
+          - path: {{ . }}
             backend:
               serviceName: {{ $fullName }}
-              servicePort: http
+              servicePort: {{ $svcPort }}
+        {{- end }}
   {{- end }}
 {{- end }}
