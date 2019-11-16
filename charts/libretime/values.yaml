@@ -5,6 +5,9 @@
 nameOverride: ""
 fullnameOverride: ""
 
+image:
+  pullSecret: ~
+
 storage:
 
   # storageClassName: 
@@ -15,7 +18,7 @@ storage:
 init:
 
   image:
-    repository: quay.io/hairmare/libretime-init
+    repository: docker.pkg.github.com/hairmare/libretime/init
     tag: latest
     pullPolicy: IfNotPresent
 
@@ -24,7 +27,7 @@ web:
   replicaCount: 1
 
   image:
-    repository: quay.io/hairmare/libretime-web
+    repository: docker.pkg.github.com/hairmare/libretime/web
     tag: latest
     pullPolicy: IfNotPresent
 
@@ -68,7 +71,7 @@ analyzer:
   replicaCount: 1
 
   image:
-    repository: quay.io/hairmare/libretime-analyzer
+    repository: docker.pkg.github.com/hairmare/libretime/analyzer
     tag: latest
     pullPolicy: IfNotPresent
 
@@ -95,7 +98,7 @@ celery:
   replicaCount: 1
 
   image:
-    repository: quay.io/hairmare/libretime-celery
+    repository: docker.pkg.github.com/hairmare/libretime/celery
     tag: latest
     pullPolicy: IfNotPresent
 
@@ -122,7 +125,7 @@ playout:
   replicaCount: 1
 
   image:
-    repository: quay.io/hairmare/libretime-playout
+    repository: docker.pkg.github.com/hairmare/libretime/playout
     tag: latest
     pullPolicy: IfNotPresent
 
@@ -149,7 +152,7 @@ liquidsoap:
   replicaCount: 1
 
   image:
-    repository: quay.io/hairmare/libretime-liquidsoap
+    repository: docker.pkg.github.com/hairmare/libretime/liquidsoap
     tag: latest
     pullPolicy: IfNotPresent
 

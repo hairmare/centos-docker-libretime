@@ -22,6 +22,10 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
         k8s.libretime.org/component: celery
     spec:
+      {{- if .Values.image.pullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecret }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.celery.image.repository }}:{{ .Values.celery.image.tag }}"
