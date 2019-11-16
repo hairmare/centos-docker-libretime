@@ -18,7 +18,7 @@ storage:
 init:
 
   image:
-    repository: docker.pkg.github.com/hairmare/libretime/init
+    repository: docker.pkg.github.com/hairmare/centos-docker-libretime/init
     tag: latest
     pullPolicy: IfNotPresent
 
@@ -27,7 +27,7 @@ web:
   replicaCount: 1
 
   image:
-    repository: docker.pkg.github.com/hairmare/libretime/web
+    repository: docker.pkg.github.com/hairmare/centos-docker-libretime/web
     tag: latest
     pullPolicy: IfNotPresent
 
@@ -71,7 +71,7 @@ analyzer:
   replicaCount: 1
 
   image:
-    repository: docker.pkg.github.com/hairmare/libretime/analyzer
+    repository: docker.pkg.github.com/hairmare/centos-docker-libretime/analyzer
     tag: latest
     pullPolicy: IfNotPresent
 
@@ -98,7 +98,7 @@ celery:
   replicaCount: 1
 
   image:
-    repository: docker.pkg.github.com/hairmare/libretime/celery
+    repository: docker.pkg.github.com/hairmare/centos-docker-libretime/celery
     tag: latest
     pullPolicy: IfNotPresent
 
@@ -125,7 +125,7 @@ playout:
   replicaCount: 1
 
   image:
-    repository: docker.pkg.github.com/hairmare/libretime/playout
+    repository: docker.pkg.github.com/hairmare/centos-docker-libretime/playout
     tag: latest
     pullPolicy: IfNotPresent
 
@@ -152,7 +152,7 @@ liquidsoap:
   replicaCount: 1
 
   image:
-    repository: docker.pkg.github.com/hairmare/libretime/liquidsoap
+    repository: docker.pkg.github.com/hairmare/centos-docker-libretime/liquidsoap
     tag: latest
     pullPolicy: IfNotPresent
 

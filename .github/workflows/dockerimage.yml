@@ -8,43 +8,43 @@ jobs:
     - uses: actions/checkout@v1
     # Build images
     - name: Build the base container image
-      run: docker build base/ --file base/Dockerfile --tag docker.pkg.github.com/hairmare/libretime/base
+      run: docker build base/ --file base/Dockerfile --tag docker.pkg.github.com/hairmare/centos-docker-libretime/base
       env:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the analyzer Docker image
-      run: docker build analyzer/ --file analyzer/Dockerfile --tag docker.pkg.github.com/hairmare/libretime/analyzer
+      run: docker build analyzer/ --file analyzer/Dockerfile --tag docker.pkg.github.com/hairmare/centos-docker-libretime/analyzer
       env:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the celery Docker image
-      run: docker build celery/ --file celery/Dockerfile --tag docker.pkg.github.com/hairmare/libretime/celery
+      run: docker build celery/ --file celery/Dockerfile --tag docker.pkg.github.com/hairmare/centos-docker-libretime/celery
       env:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the init Docker image
-      run: docker build init/ --file init/Dockerfile --tag docker.pkg.github.com/hairmare/libretime/init
+      run: docker build init/ --file init/Dockerfile --tag docker.pkg.github.com/hairmare/centos-docker-libretime/init
       env:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the liquidsoap Docker image
-      run: docker build liquidsoap/ --file liquidsoap/Dockerfile --tag docker.pkg.github.com/hairmare/libretime/liquidsoap
+      run: docker build liquidsoap/ --file liquidsoap/Dockerfile --tag docker.pkg.github.com/hairmare/centos-docker-libretime/liquidsoap
       env:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the playout Docker image
-      run: docker build playout/ --file playout/Dockerfile --tag docker.pkg.github.com/hairmare/libretime/playout
+      run: docker build playout/ --file playout/Dockerfile --tag docker.pkg.github.com/hairmare/centos-docker-libretime/playout
       env:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the web Docker image
-      run: docker build web/ --file web/Dockerfile --tag docker.pkg.github.com/hairmare/libretime/web
+      run: docker build web/ --file web/Dockerfile --tag docker.pkg.github.com/hairmare/centos-docker-libretime/web
       env:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}
@@ -55,49 +55,49 @@ jobs:
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u "${{ github.actor }}" --password-stdin
     - name: Publish the base container image
       if: github.ref == 'refs/heads/master'
-      run: docker push docker.pkg.github.com/hairmare/libretime/base
+      run: docker push docker.pkg.github.com/hairmare/centos-docker-libretime/base
       env:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     - name: Publish the analyzer Docker image
       if: github.ref == 'refs/heads/master'
-      run: docker push docker.pkg.github.com/hairmare/libretime/analyzer
+      run: docker push docker.pkg.github.com/hairmare/centos-docker-libretime/analyzer
       env:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     - name: Publish the celery Docker image
       if: github.ref == 'refs/heads/master'
-      run: docker push docker.pkg.github.com/hairmare/libretime/celery
+      run: docker push docker.pkg.github.com/hairmare/centos-docker-libretime/celery
       env:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     - name: Publish the init Docker image
       if: github.ref == 'refs/heads/master'
-      run: docker push docker.pkg.github.com/hairmare/libretime/init
+      run: docker push docker.pkg.github.com/hairmare/centos-docker-libretime/init
       env:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     - name: Publish the liquidsoap Docker image
       if: github.ref == 'refs/heads/master'
-      run: docker push docker.pkg.github.com/hairmare/libretime/liquidsoap
+      run: docker push docker.pkg.github.com/hairmare/centos-docker-libretime/liquidsoap
       env:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     - name: Publish the playout Docker image
       if: github.ref == 'refs/heads/master'
-      run: docker push docker.pkg.github.com/hairmare/libretime/playout
+      run: docker push docker.pkg.github.com/hairmare/centos-docker-libretime/playout
       env:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     - name: Publish the web Docker image
       if: github.ref == 'refs/heads/master'
-      run: docker push docker.pkg.github.com/hairmare/libretime/web
+      run: docker push docker.pkg.github.com/hairmare/centos-docker-libretime/web
       env:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}

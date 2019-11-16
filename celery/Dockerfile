@@ -1,4 +1,4 @@
-FROM docker.pkg.github.com/hairmare/libretime/base
+FROM docker.pkg.github.com/hairmare/centos-docker-libretime/base
 
 LABEL description="LibreTime celery async task running container." \
       io.k8s.description="LibreTime celery async task running container."

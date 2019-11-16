@@ -1,4 +1,4 @@
-FROM docker.pkg.github.com/hairmare/libretime/base
+FROM docker.pkg.github.com/hairmare/centos-docker-libretime/base
 
 LABEL description="LibreTime Icecast streaming server container." \
       io.k8s.description="LibreTime Icecast streaming server container."
