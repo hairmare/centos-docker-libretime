@@ -1,0 +1,37 @@
+name: Helm Chart
+on:
+  push:
+    branches-ignore:
+      - gh-pages
+    paths:
+      - charts/**
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Lint Helm Chart
+      uses: stefanprodan/kube-tools@v1
+      command: |
+        helmv3 lint charts/libretime
+    - name: Build Helm Chart and Repo
+      uses: stefanprodan/kube-tools@v1
+      command: |
+        mkdir helm
+        helmv3 package charts/libretime -d helm/
+        helmv3 repo index helm/
+    - name: Commit files
+      if: github.ref == 'refs/heads/master'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git checkout -b gh-pages
+        git add helm/
+        git commit -m ":package: Generated Helm Chart"
+    - name: Publish to GitHub Pages
+      if: github.ref == 'refs/heads/master'
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages
+        force: true

@@ -1,6 +1,13 @@
 ---
 name: Docker Image CI
-on: [push]
+on:
+  push:
+    branches-ignore:
+      - gh-pages
+    paths-ignore:
+      - README.md
+      - renovate.json
+      - charts/**
 jobs:
   build:
     runs-on: ubuntu-latest
