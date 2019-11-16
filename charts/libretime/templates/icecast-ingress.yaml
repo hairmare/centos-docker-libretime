@@ -1,0 +1,39 @@
+{{- if .Values.icecast.ingress.enabled -}}
+{{- $fullName := include "libretime.fullname" . -}}
+{{- $ingressPath := .Values.icecast.ingress.path -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-icecast
+  labels:
+    app.kubernetes.io/name: {{ include "libretime.name" . }}
+    helm.sh/chart: {{ include "libretime.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    k8s.libretime.org/component: icecast
+{{- with .Values.icecast.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+{{- if .Values.icecast.ingress.tls }}
+  tls:
+  {{- range .Values.icecast.ingress.tls }}
+    - hosts:
+      {{- range .hosts }}
+        - {{ . | quote }}
+      {{- end }}
+      secretName: {{ .secretName }}
+  {{- end }}
+{{- end }}
+  rules:
+  {{- range .Values.icecast.ingress.hosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          - path: {{ $ingressPath }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: http
+  {{- end }}
+{{- end }}

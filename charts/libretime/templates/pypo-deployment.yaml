@@ -39,42 +39,29 @@ spec:
           image: "{{ .Values.playout.image.repository }}:{{ .Values.playout.image.tag }}"
           imagePullPolicy: {{ .Values.playout.image.pullPolicy }}
           volumeMounts:
-            - mountPath: "/srv/airtime/"
-              name: storage
+            - mountPath: "/var/tmp/airtime/pypo/cache/"
+              name: cache
             - mountPath: "/etc/airtime"
               name: config
               readOnly: true
             - mountPath: "/var/log/airtime/"
               name: logs
           resources:
-{{ toYaml .Values.playout.resources | indent 12 }}
+            {{ toYaml .Values.playout.resources | nindent 12 }}
         - name: {{ .Chart.Name }}-liquidsoap
           image: "{{ .Values.liquidsoap.image.repository }}:{{ .Values.liquidsoap.image.tag }}"
           imagePullPolicy: {{ .Values.liquidsoap.image.pullPolicy }}
           volumeMounts:
-            - mountPath: "/srv/airtime/"
-              name: storage
+            - mountPath: "/var/tmp/airtime/pypo/cache/"
+              name: cache
             - mountPath: "/etc/airtime"
               name: config
               readOnly: true
           resources:
-{{ toYaml .Values.liquidsoap.resources | indent 12 }}
-    {{- with .Values.pypo.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.pypo.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.pypo.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+            {{ toYaml .Values.liquidsoap.resources | nindent 12 }}
       volumes:
-        - name: storage
-          persistentVolumeClaim:
-            claimName: {{ include "libretime.fullname" . }}
+        - name: cache
+          emptyDir: {}
         - name: config
           secret:
             secretName: {{ include "libretime.fullname" . }}
@@ -83,3 +70,15 @@ spec:
                 path: airtime.conf
         - name: logs
           emptyDir: {}
+    {{- with .Values.pypo.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.pypo.affinity }}
+      affinity:
+        {{ toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.pypo.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+    {{- end }}

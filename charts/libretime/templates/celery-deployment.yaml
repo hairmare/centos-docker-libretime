@@ -40,19 +40,7 @@ spec:
               name: config
               readOnly: true
           resources:
-{{ toYaml .Values.celery.resources | indent 12 }}
-    {{- with .Values.celery.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.celery.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.celery.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+            {{ toYaml .Values.celery.resources | nindent 12 }}
       volumes:
         - name: storage
           persistentVolumeClaim:
@@ -60,3 +48,15 @@ spec:
         - name: config
           secret:
             secretName: {{ include "libretime.fullname" . }}
+    {{- with .Values.celery.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.celery.affinity }}
+      affinity:
+        {{ toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.celery.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+    {{- end }}

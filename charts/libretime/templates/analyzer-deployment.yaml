@@ -47,19 +47,7 @@ spec:
             - mountPath: "/var/log/airtime/"
               name: logs
           resources:
-{{ toYaml .Values.analyzer.resources | indent 12 }}
-    {{- with .Values.analyzer.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.analyzer.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.analyzer.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+            {{ toYaml .Values.analyzer.resources | nindent 12 }}
       volumes:
         - name: storage
           persistentVolumeClaim:
@@ -69,3 +57,15 @@ spec:
             secretName: {{ include "libretime.fullname" . }}
         - name: logs
           emptyDir: {}
+    {{- with .Values.analyzer.nodeSelector }}
+      nodeSelector:
+        {{ toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.analyzer.affinity }}
+      affinity:
+        {{ toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.analyzer.tolerations }}
+      tolerations:
+        {{ toYaml . | nindent 8 }}
+    {{- end }}

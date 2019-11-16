@@ -22,4 +22,8 @@ cat \
 
 popd
 
+echo \
+  "INSERT INTO cc_music_dirs (id, directory, type) VALUES (1, '/srv/airtime/stor', 'stor');" \
+| psql -h $DATABASE_HOST -U $DATABASE_USER $DATABASE_NAME
+
 mkdir -p /srv/airtime/stor/{imported,organize,problem_files}

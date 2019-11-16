@@ -25,6 +25,12 @@ jobs:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build the icecast Docker image
+      run: docker build icecast/ --file icecast/Dockerfile --tag docker.pkg.github.com/hairmare/centos-docker-libretime/icecast
+      env:
+        DOCKER_REGISTRY_URL: docker.pkg.github.com
+        DOCKER_USERNAME: ${{ github.actor }}
+        DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the init Docker image
       run: docker build init/ --file init/Dockerfile --tag docker.pkg.github.com/hairmare/centos-docker-libretime/init
       env:
@@ -70,6 +76,13 @@ jobs:
     - name: Publish the celery Docker image
       if: github.ref == 'refs/heads/master'
       run: docker push docker.pkg.github.com/hairmare/centos-docker-libretime/celery
+      env:
+        DOCKER_REGISTRY_URL: docker.pkg.github.com
+        DOCKER_USERNAME: ${{ github.actor }}
+        DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+    - name: Publish the icecast Docker image
+      if: github.ref == 'refs/heads/master'
+      run: docker push docker.pkg.github.com/hairmare/centos-docker-libretime/icecast
       env:
         DOCKER_REGISTRY_URL: docker.pkg.github.com
         DOCKER_USERNAME: ${{ github.actor }}
