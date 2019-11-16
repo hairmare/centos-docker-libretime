@@ -50,6 +50,9 @@ jobs:
         DOCKER_USERNAME: ${{ github.actor }}
         DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
     # Publish Images (if on master)
+    - name: Login to GitHub Package Registry
+      if: github.ref == 'refs/heads/master'
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u "${{ github.actor }}" --password-stdin
     - name: Publish the base container image
       if: github.ref == 'refs/heads/master'
       run: docker push docker.pkg.github.com/hairmare/libretime/base
