@@ -44,11 +44,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /images/airtime_logo.png
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /images/airtime_logo.png
               port: http
           volumeMounts:
             - mountPath: "/srv/airtime/"

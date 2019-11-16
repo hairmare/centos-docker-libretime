@@ -15,6 +15,10 @@ storage:
   accessMode: ReadWriteOnce
   capacity: 4G
 
+libretime:
+  general:
+    api_key: ~
+
 init:
 
   image:
@@ -120,9 +124,17 @@ celery:
 
   affinity: {}
 
-playout:
+pypo:
 
   replicaCount: 1
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+playout:
 
   image:
     repository: docker.pkg.github.com/hairmare/centos-docker-libretime/playout
@@ -141,15 +153,7 @@ playout:
     #  cpu: 100m
     #  memory: 128Mi
 
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
-
 liquidsoap:
-
-  replicaCount: 1
 
   image:
     repository: docker.pkg.github.com/hairmare/centos-docker-libretime/liquidsoap
@@ -167,12 +171,6 @@ liquidsoap:
     # requests:
     #  cpu: 100m
     #  memory: 128Mi
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
 
 rabbitmq:
 

@@ -20,6 +20,10 @@ spec:
         k8s.libretime.org/component: init
     spec:
       restartPolicy: Never
+      {{- if .Values.image.pullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecret }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}"
