@@ -1,4 +1,4 @@
-1. Get the application URL by running these commands:
+1. Get the LibreTime URL by running these commands:
 {{- if .Values.web.ingress.enabled }}
 {{- range .Values.web.ingress.hosts }}
   http{{ if $.Values.web.ingress.tls }}s{{ end }}://{{ . }}{{ $.Values.web.ingress.path }}
@@ -17,3 +17,11 @@
   echo "Visit http://127.0.0.1:8080 to use your application"
   kubectl port-forward $POD_NAME 8080:8080
 {{- end }}
+
+2. Connect to the LibreTime URL and log in
+
+3. Go to "Settings" > "Streams" and configure the bundled Icecast instance as "Stream 1"
+  Server: {{ include "libretime.fullname" . }}-icecast
+  Port: 8000
+
+4. Configure "Stream 2" and "Stream 3" if needed
