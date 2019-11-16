@@ -12,11 +12,11 @@ jobs:
     - uses: actions/checkout@v1
     - name: Lint Helm Chart
       uses: stefanprodan/kube-tools@v1
-      command: |
+      run: |
         helmv3 lint charts/libretime
     - name: Build Helm Chart and Repo
       uses: stefanprodan/kube-tools@v1
-      command: |
+      run: |
         mkdir helm
         helmv3 package charts/libretime -d helm/
         helmv3 repo index helm/
