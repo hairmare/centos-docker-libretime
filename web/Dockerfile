@@ -1,7 +1,7 @@
-FROM centos:7
+FROM docker.pkg.github.com/hairmare/libretime/base
 
-LABEL maintainer="Lucas Bickel <hairmare@rabe.ch>" \
-      description="LibreTime Web Interface container"
+LABEL description="LibreTime web frontend container." \
+      io.k8s.description="LibreTime web frontend container."
 
 ENV APACHE_RUN_DIR=/tmp/libretime/apache/run \
     APACHE_LOCK_DIR=/tmp/libretime/apache/lock \
