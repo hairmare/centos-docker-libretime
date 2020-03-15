@@ -1,6 +1,6 @@
 dependencies:
   - name: rabbitmq
-    version: 6.12.1
+    version: 6.18.2
     repository: https://kubernetes-charts.storage.googleapis.com
   - name: postgresql
     version: 6.5.9
