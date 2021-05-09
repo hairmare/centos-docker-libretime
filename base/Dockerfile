@@ -1,4 +1,4 @@
-FROM centos:7
+FROM centos:8
 
 LABEL maintainer="Lucas Bickel <hairmare@rabe.ch>" \
       maintainer.name="Lucas Bickel" \
